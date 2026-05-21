@@ -8,7 +8,8 @@
 
 /* ================= HELP ================= */
 
-void print_help(void) {
+void print_help(void)
+{
     printf("\n%sTerminal Simulator%s\n", GREEN, RESET);
     printf("--------------------------------\n");
     printf("help      show commands\n");
@@ -30,7 +31,8 @@ void print_help(void) {
 
 /* ================= MAIN ================= */
 
-int main(void) {
+int main(void)
+{
     TreeNode* root = create_tree_node(NULL, "/");
     root->type = 'd';
 
@@ -48,90 +50,111 @@ int main(void) {
 
     char cmd[1024];
 
-    while (1) {
+    while(1)
+    {
         char* p = pwd_str(root, pwd);
         printf("user@terminal:%s$ ", p);
         free(p);
 
-        if (!fgets(cmd, sizeof(cmd), stdin)) {
+        if(!fgets(cmd, sizeof(cmd), stdin))
+        {
             break;
         }
 
         cmd[strcspn(cmd, "\n")] = 0;
 
-        if (strlen(cmd) == 0)
+        if(strlen(cmd) == 0)
+        {
             continue;
+        }
 
         history.data = realloc(history.data, sizeof(char*) * (history.size + 1));
         history.data[history.size++] = strdup(cmd);
 
         StringArray args = split(cmd, ' ');
 
-        if (args.size == 0) {
+        if(args.size == 0)
+        {
             free_string_array(args);
             continue;
         }
 
         /* ================= COMMANDS ================= */
 
-        if (strcmp(args.data[0], "exit") == 0) {
+        if(strcmp(args.data[0], "exit") == 0)
+        {
             free_string_array(args);
             break;
         }
 
-        else if (strcmp(args.data[0], "help") == 0) {
+        else if(strcmp(args.data[0], "help") == 0)
+        {
             print_help();
         }
 
-        else if (strcmp(args.data[0], "pwd") == 0) {
+        else if(strcmp(args.data[0], "pwd") == 0)
+        {
             char* s = pwd_str(root, pwd);
             printf("%s\n", s);
             free(s);
         }
 
-        else if (strcmp(args.data[0], "ls") == 0) {
+        else if(strcmp(args.data[0], "ls") == 0)
+        {
             print_ls(root, pwd);
         }
 
-        else if (strcmp(args.data[0], "tree") == 0) {
+        else if(strcmp(args.data[0], "tree") == 0)
+        {
             print_tree(pwd->child, 0);
         }
 
-        else if (strcmp(args.data[0], "cd") == 0 && args.size > 1) {
+        else if(strcmp(args.data[0], "cd") == 0 && args.size > 1)
+        {
             TreeNode* temp = cd(root, pwd, args.data[1]);
-            if (temp)
+            if(temp)
+            {
                 pwd = temp;
+            }
         }
 
-        else if (strcmp(args.data[0], "mkdir") == 0 && args.size > 1) {
+        else if(strcmp(args.data[0], "mkdir") == 0 && args.size > 1)
+        {
             create(root, pwd, args.data[1], 'd');
         }
 
-        else if (strcmp(args.data[0], "touch") == 0 && args.size > 1) {
+        else if(strcmp(args.data[0], "touch") == 0 && args.size > 1)
+        {
             create(root, pwd, args.data[1], '-');
         }
 
-        else if (strcmp(args.data[0], "edit") == 0 && args.size > 1) {
+        else if(strcmp(args.data[0], "edit") == 0 && args.size > 1)
+        {
             edit(root, pwd, args.data[1]);
         }
 
-        else if (strcmp(args.data[0], "cat") == 0 && args.size > 1) {
+        else if(strcmp(args.data[0], "cat") == 0 && args.size > 1)
+        {
             cat(root, pwd, args.data[1]);
         }
 
-        else if (strcmp(args.data[0], "rm") == 0 && args.size > 1) {
+        else if(strcmp(args.data[0], "rm") == 0 && args.size > 1)
+        {
             remove_node(root, pwd, args.data[1]);
         }
 
-        else if (strcmp(args.data[0], "chmod") == 0 && args.size > 2) {
+        else if(strcmp(args.data[0], "chmod") == 0 && args.size > 2)
+        {
             chmod2(root, pwd, args.data[2], args.data[1]);
         }
 
-        else if (strcmp(args.data[0], "clear") == 0) {
+        else if(strcmp(args.data[0], "clear") == 0)
+        {
             system("clear");
         }
 
-        else if (strcmp(args.data[0], "finder") == 0) {
+        else if(strcmp(args.data[0], "finder") == 0)
+        {
 #ifdef __APPLE__
             char real[2048];
             build_real_path(root, pwd, real);
@@ -141,13 +164,16 @@ int main(void) {
 #endif
         }
 
-        else if (strcmp(args.data[0], "history") == 0) {
-            for (int i = 0; i < history.size; i++) {
+        else if(strcmp(args.data[0], "history") == 0)
+        {
+            for(int i = 0; i < history.size; i++)
+            {
                 printf("%d %s\n", i + 1, history.data[i]);
             }
         }
 
-        else {
+        else
+        {
             printf("%sunknown command%s\n", RED, RESET);
         }
 
