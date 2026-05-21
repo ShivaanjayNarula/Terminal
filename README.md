@@ -148,5 +148,17 @@ user@terminal:/Users/shivaanjaynarula/Public$ exit
 
 ---
 
+# Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+---
+
 # License
 This project is licensed under the [GNU Affero General Public License v3.0](LICENSE).
+
+---
