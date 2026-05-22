@@ -1,4 +1,4 @@
-# macOS Terminal Simulator (C)
+# macOS Terminal Simulator
 
 A lightweight macOS-style terminal simulator written in C that mimics basic shell commands such as `ls`, `cd`, `mkdir`, `touch`, `rm`, `cat`, `edit`, and more using a custom tree-based virtual filesystem synced with the real local filesystem.
 
