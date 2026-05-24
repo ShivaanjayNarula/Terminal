@@ -68,9 +68,6 @@ Follow these commands in your standard system terminal to build and run the proj
 
 ### 2. Open Workspace
 Make sure your terminal is located in the root directory of the project:
-```bash
-cd /Users/shivaanjaynarula/Documents/Projects/terminal
-```
 
 ### 3. Compile the Project
 Build the modular modules into the unified `terminal_simulator` binary:
