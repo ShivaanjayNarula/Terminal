@@ -1,12 +1,12 @@
 # macOS Terminal Simulator
 
-A lightweight macOS-style terminal simulator written in C that mimics basic shell commands such as `ls`, `cd`, `mkdir`, `touch`, `rm`, `cat`, `edit`, and more using a custom tree-based virtual filesystem synced with the real local filesystem.
+A lightweight terminal simulator written in C that mimics basic shell commands such as `ls`, `cd`, `mkdir`, `touch`, `rm`, `cat`, `edit`, and more using a custom tree-based virtual filesystem synced with the real local filesystem.
 
 ---
 
 ## Features
 
-* **macOS-Style Terminal Prompt**: Interactive command-line prompt reflecting current directory pathing.
+* **Terminal Prompt**: Interactive command-line prompt reflecting current directory pathing.
 * **Modular Codebase**: Highly organized into clear source and header modules separating CLI, virtual filesystem, and generic utilities.
 * **On-Demand VFS Lazy Loading**: Efficiently crawls and synchronizes local filesystem directories only when they are accessed.
 * **Access Diagnostics**: Provides standard POSIX warnings when trying to traverse permission-restricted directories.
@@ -115,7 +115,7 @@ typedef struct TreeNode {
 * **The Problem**: A full recursive crawl of `/` at startup would traverse millions of files, causing gigabytes of RAM usage, severe startup delays, or Out-Of-Memory system crashes.
 * **The Solution**: On startup, the simulator loads a shallow skeleton of the filesystem up to a depth of `2` (`/`, `/Users`, and `/Users/<username>`). As you navigate (`cd`), list (`ls`), or manipulate paths (`mkdir`, `touch`), the core VFS dynamically invokes POSIX APIs (`opendir`, `readdir`) to scan and populate child directories on-demand under the corresponding tree nodes. This keeps startup instant while allowing full path exploration!
 
-### macOS Directory Protection (Access Diagnostics)
+### Directory Protection (Access Diagnostics)
 Modern macOS versions restrict terminal applications from accessing personal folders (e.g., `Documents`, `Desktop`, `Downloads`) without explicit "Full Disk Access" permissions. 
 If the simulator processes attempt to load a protected directory without these privileges, the VFS diagnoses the POSIX failure and prints an elegant warning:
 ```bash
